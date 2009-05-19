@@ -9,7 +9,7 @@ begin
     gem.email = "bruce@codefluency.com"
     gem.homepage = "http://github.com/bruce/bitmask-attribute"
     gem.authors = ["Bruce Williams"]
-
+    gem.add_dependency 'activerecord'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
