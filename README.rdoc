@@ -1,7 +1,0 @@
-= bitmask-attribute
-
-Description goes here.
-
-== Copyright
-
-Copyright (c) 2009 Bruce Williams. See LICENSE for details.
