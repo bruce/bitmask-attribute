@@ -42,24 +42,24 @@ module BitmaskAttribute
     end
     
     def override_getter_on(model)
-      model.class_eval(<<-EVAL)
+      model.class_eval %(
         def #{attribute}
           @#{attribute} ||= BitmaskAttribute::ValueProxy.new(self, :#{attribute}, &self.class.bitmask_definitions[:#{attribute}].extension)
         end
-      EVAL
+      )
     end
     
     def override_setter_on(model)
-      model.class_eval(<<-EVAL)
+      model.class_eval %(
         def #{attribute}=(raw_value)
           values = raw_value.kind_of?(Array) ? raw_value : [raw_value]
           #{attribute}.replace(values)
         end
-      EVAL
+      )
     end
     
     def create_convenience_method_on(model)
-      model.class_eval(<<-EVAL)
+      model.class_eval %(
         def self.bitmask_for_#{attribute}(*values)
           values.inject(0) do |bitmask, value|
             unless (bit = bitmasks[:#{attribute}][value])
@@ -68,7 +68,7 @@ module BitmaskAttribute
             bitmask | bit
           end
         end
-      EVAL
+      )
     end
     
   end
