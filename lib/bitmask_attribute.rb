@@ -15,7 +15,8 @@ module BitmaskAttribute
       validate_for model
       generate_bitmasks_on model
       override model
-      create_convenience_method_on model
+      create_convenience_class_method_on model
+      create_convenience_instance_methods_on model
       create_convenience_sql_method_on model
     end
     
@@ -59,7 +60,7 @@ module BitmaskAttribute
       )
     end
     
-    def create_convenience_method_on(model)
+    def create_convenience_class_method_on(model)
       model.class_eval %(
         def self.bitmask_for_#{attribute}(*values)
           values.inject(0) do |bitmask, value|
@@ -70,6 +71,16 @@ module BitmaskAttribute
           end
         end
       )
+    end
+    
+    def create_convenience_instance_methods_on(model)
+      for value in values
+        model.class_eval %(
+          def #{attribute}_for_#{value}?
+            self.#{attribute}.include?(:#{value})
+          end
+        )
+      end
     end
     
     # Only tested on sqlite and MySQL.
