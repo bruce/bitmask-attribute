@@ -16,6 +16,7 @@ module BitmaskAttribute
       generate_bitmasks_on model
       override model
       create_convenience_method_on model
+      create_convenience_sql_method_on model
     end
     
     #######
@@ -69,6 +70,17 @@ module BitmaskAttribute
           end
         end
       )
+    end
+    
+    # Only tested on sqlite and MySQL.
+    # Generates:
+    #   named_scope :medium_for_web, :conditions => ['medium & ? <> 0', Campaign.bitmask_for_medium(:print)]
+    def create_convenience_sql_method_on(model)
+      for value in values
+        model.class_eval %(
+          named_scope :#{attribute}_for_#{value}, :conditions => ['#{attribute} & ? <> 0', #{model}.bitmask_for_#{attribute}(:#{value})]
+        )
+      end
     end
     
   end

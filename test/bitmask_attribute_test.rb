@@ -91,6 +91,21 @@ class BitmaskAttributeTest < Test::Unit::TestCase
       campaign = Campaign.new(:medium => [:web, :print, ''])
       assert_stored campaign, :web, :print
     end
+    
+    should "find by bitmask values" do
+      campaign = Campaign.new(:medium => [:web, :print])
+      assert campaign.save
+      
+      assert_equal(
+        Campaign.find(:all, :conditions => ['medium & ? <> 0', Campaign.bitmask_for_medium(:print)]),
+        Campaign.medium_for_print
+      )
+      
+      assert_equal Campaign.medium_for_print, Campaign.medium_for_print.medium_for_web
+      
+      assert_equal [], Campaign.medium_for_email
+      assert_equal [], Campaign.medium_for_web.medium_for_email
+    end
 
     #######
     private

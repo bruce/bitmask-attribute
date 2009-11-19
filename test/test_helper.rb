@@ -14,6 +14,8 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'bitmask-attribute'
 require File.dirname(__FILE__) + '/../rails/init'
 
+# ActiveRecord::Base.logger = Logger.new(STDOUT)
+
 ActiveRecord::Base.establish_connection(
   :adapter  => 'sqlite3',
   :database => ':memory:'
