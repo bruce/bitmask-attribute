@@ -92,6 +92,10 @@ module BitmaskAttribute
           named_scope :#{attribute}_for_#{value}, :conditions => ['#{attribute} & ? <> 0', #{model}.bitmask_for_#{attribute}(:#{value})]
         )
       end
+      
+      model.class_eval %(
+        named_scope :no_#{attribute}, :conditions => {:#{attribute} => 0}
+      )
     end
     
   end

@@ -121,6 +121,18 @@ class BitmaskAttributeTest < Test::Unit::TestCase
       assert_equal [], Campaign.medium_for_web.medium_for_email
     end
 
+    should "find no values" do
+      campaign = Campaign.create(:medium => [:web, :print])
+      assert campaign.save
+      
+      assert_equal [], Campaign.no_medium
+      
+      campaign.medium = []
+      assert campaign.save
+      
+      assert_equal [campaign], Campaign.no_medium
+    end
+
     #######
     private
     #######
