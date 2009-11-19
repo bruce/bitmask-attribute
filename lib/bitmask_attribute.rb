@@ -81,6 +81,12 @@ module BitmaskAttribute
           end
         )
       end
+      
+      model.class_eval %(
+        def #{attribute}?
+          self.#{attribute}.present?
+        end
+      )
     end
     
     # Only tested on sqlite and MySQL.

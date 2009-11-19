@@ -106,6 +106,16 @@ class BitmaskAttributeTest < Test::Unit::TestCase
       assert !campaign.medium_for_email?
     end
 
+    should "can check if at least one value is set" do
+      campaign = Campaign.new(:medium => [:web, :print])
+      
+      assert campaign.medium?
+      
+      campaign = Campaign.new
+      
+      assert !campaign.medium?
+    end
+
     should "find by bitmask values" do
       campaign = Campaign.new(:medium => [:web, :print])
       assert campaign.save
