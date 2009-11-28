@@ -53,7 +53,7 @@ module BitmaskAttribute
       model.class_eval %(
         def #{attribute}=(raw_value)
           values = raw_value.kind_of?(Array) ? raw_value : [raw_value]
-          #{attribute}.replace(values)
+          self.#{attribute}.replace(values)
         end
       )
     end

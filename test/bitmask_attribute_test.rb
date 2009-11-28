@@ -81,6 +81,12 @@ class BitmaskAttributeTest < Test::Unit::TestCase
       assert_equal Campaign.bitmask_for_medium(:web, :print), string_bit
     end
 
+    should "save bitmask with non-standard attribute names" do
+      campaign = Campaign.new(:Legacy => [:upper, :case])
+      assert campaign.save
+      assert_equal Campaign.find(campaign.id).Legacy, [:upper, :case]
+    end
+
     #######
     private
     #######

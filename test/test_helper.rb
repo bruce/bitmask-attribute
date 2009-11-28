@@ -23,6 +23,7 @@ ActiveRecord::Schema.define do
   create_table :campaigns do |table|
     table.column :medium, :integer
     table.column :misc, :integer
+    table.column :Legacy, :integer
   end
 end
 
@@ -34,6 +35,8 @@ class Campaign < ActiveRecord::Base
       true
     end
   end
+
+  bitmask :Legacy, :as => [:upper, :case]
 end
 
 class Test::Unit::TestCase
