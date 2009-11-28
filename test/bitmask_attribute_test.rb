@@ -84,7 +84,12 @@ class BitmaskAttributeTest < Test::Unit::TestCase
     should "save bitmask with non-standard attribute names" do
       campaign = Campaign.new(:Legacy => [:upper, :case])
       assert campaign.save
-      assert_equal Campaign.find(campaign.id).Legacy, [:upper, :case]
+      assert_equal [:upper, :case], Campaign.find(campaign.id).Legacy
+    end
+
+    should "ignore blanks fed as values" do
+      campaign = Campaign.new(:medium => [:web, :print, ''])
+      assert_stored campaign, :web, :print
     end
 
     #######
