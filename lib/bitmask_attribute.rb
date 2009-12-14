@@ -23,8 +23,8 @@ module BitmaskAttribute
     #######
 
     def validate_for(model)
-      unless model.columns.detect { |col| col.name == attribute.to_s && col.type == :integer }
-        raise ArgumentError, "`#{attribute}' is not an integer column of `#{model}'"
+      unless model.columns.detect { |col| col.name == attribute.to_s }
+        raise ArgumentError, "`#{attribute}' is not an attribute of `#{model}'"
       end
     end
     

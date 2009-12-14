@@ -33,7 +33,7 @@ module BitmaskAttribute
     #######
     
     def validate!
-      each do |value| 
+      each do |value|
         if @mapping.key? value
           true
         else
