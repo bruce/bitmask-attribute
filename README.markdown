@@ -40,7 +40,15 @@ Please feel free to fork & contribute fixes via GitHub pull requests.
 The official repository for this project is
 http://github.com/bruce/bitmask-attribute
 
-Issues can be reported at http://github.com/bruce/bitmask-attribute/issues
+Issues can be reported at
+http://github.com/bruce/bitmask-attribute/issues
+
+## Credits
+
+Thanks to the following contributors:
+
+* [Jason L Perry](http://github.com/ambethia)
+* [Nicolas Fouché](http://github.com/nfo)
 
 ## Copyright
 
