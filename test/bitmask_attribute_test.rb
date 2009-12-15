@@ -4,6 +4,11 @@ class BitmaskAttributeTest < Test::Unit::TestCase
   
   context "Campaign" do
 
+    teardown do
+      Company.destroy_all
+      Campaign.destroy_all
+    end
+
     should "can assign single value to bitmask" do
       assert_stored Campaign.new(:medium => :web), :web
     end
@@ -68,7 +73,7 @@ class BitmaskAttributeTest < Test::Unit::TestCase
         Campaign.bitmask_for_medium(:web, :print)
       )
     end
-
+    
     should "assert use of unknown value in convenience method will result in exception" do
       assert_unsupported { Campaign.bitmask_for_medium(:web, :and_this_isnt_valid)  }
     end
@@ -92,18 +97,63 @@ class BitmaskAttributeTest < Test::Unit::TestCase
       assert_stored campaign, :web, :print
     end
     
-    should "can check if a value is set" do
-      campaign = Campaign.new(:medium => [:web, :print])
+    context "checking" do
+
+      setup { @campaign = Campaign.new(:medium => [:web, :print]) }
+
+      context "for a single value" do
       
-      assert campaign.medium_for_web?
-      assert campaign.medium_for_print?
-      assert !campaign.medium_for_email?
+        should "be supported by an attribute_for_value convenience method" do
+          assert @campaign.medium_for_web?
+          assert @campaign.medium_for_print?
+          assert !@campaign.medium_for_email?
+        end
+        
+        should "be supported by the simple predicate method" do
+          assert @campaign.medium?(:web)
+          assert @campaign.medium?(:print)
+          assert !@campaign.medium?(:email)
+        end
+
+      end
       
-      campaign = Campaign.new
+      context "for multiple values" do
+        
+        should "be supported by the simple predicate method" do
+          assert @campaign.medium?(:web, :print)
+          assert !@campaign.medium?(:web, :email)
+        end
+
+      end
+
+    end
+
+    context "named scopes" do
+
+      setup do
+        @company = Company.create(:name => "Test Co, Intl.")
+        @campaign1 = @company.campaigns.create :medium => [:web, :print]        
+        @campaign2 = @company.campaigns.create
+        @campaign3 = @company.campaigns.create :medium => [:web, :email] 
+      end
+
+      should "support retrieval by any value" do
+        assert_equal [@campaign1, @campaign3], @company.campaigns.with_medium
+      end
+
+      should "support retrieval by one matching value" do
+        assert_equal [@campaign1], @company.campaigns.with_medium(:print)
+      end
       
-      assert !campaign.medium_for_web?
-      assert !campaign.medium_for_print?
-      assert !campaign.medium_for_email?
+      should "support retrieval by all matching values" do
+        assert_equal [@campaign1], @company.campaigns.with_medium(:web, :print)
+        assert_equal [@campaign3], @company.campaigns.with_medium(:web, :email)
+      end
+
+      should "support retrieval for no values" do
+        assert_equal [@campaign2], @company.campaigns.without_medium
+      end
+
     end
 
     should "can check if at least one value is set" do
