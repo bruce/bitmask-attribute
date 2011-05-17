@@ -3,6 +3,10 @@ bitmask-attribute
 
 Transparent manipulation of bitmask attributes.
 
+About this Fork
+---------------
+This Fork is just a little tweak to bruce/bitmask_attribute in order to replace the depreciated Kernel#returning function.
+
 Example
 -------
 

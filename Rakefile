@@ -4,11 +4,11 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "bitmask-attribute"
-    gem.summary = %Q{Simple bitmask attribute support for ActiveRecord}
-    gem.email = "bruce@codefluency.com"
-    gem.homepage = "http://github.com/bruce/bitmask-attribute"
-    gem.authors = ["Bruce Williams"]
+    gem.name = "gabrielhase-bitmask-attribute"
+    gem.summary = %Q{Simple bitmask attribute support for ActiveRecord. Forked from bruce/bitmask_attribute for Rails 2.3.11 support.}
+    gem.email = "gabriel.hase@gmail.com"
+    gem.homepage = "http://github.com/gabrielhase/bitmask-attribute"
+    gem.authors = ["Bruce Williams, Gabriel Hase"]
     gem.add_dependency 'activerecord'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
