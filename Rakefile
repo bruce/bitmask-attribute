@@ -9,7 +9,7 @@ begin
     gem.email = "gabriel.hase@gmail.com"
     gem.homepage = "http://github.com/gabrielhase/bitmask-attribute"
     gem.authors = ["Bruce Williams, Gabriel Hase"]
-    gem.add_dependency 'activerecord'
+    gem.add_dependency 'activerecord', '>=2.3.7'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
