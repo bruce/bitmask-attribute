@@ -17,7 +17,7 @@ module BitmaskAttribute
     %w(push << delete replace reject! select!).each do |override|
       class_eval(<<-EOEVAL)
         def #{override}(*args)
-          returning(super) do
+          (super).tap do
             updated!
           end
         end
@@ -55,7 +55,7 @@ module BitmaskAttribute
     def extract_values
       stored = [@record.send(:read_attribute, @attribute) || 0, 0].max
       @mapping.inject([]) do |values, (value, bitmask)|
-        returning values do
+        values.tap do
           values << value.to_sym if (stored & bitmask > 0)
         end
       end        

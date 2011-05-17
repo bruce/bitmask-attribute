@@ -36,7 +36,7 @@ module BitmaskAttribute
     end
     
     def generate_bitmasks_on(model)
-      model.bitmasks[attribute] = returning HashWithIndifferentAccess.new do |mapping|
+      model.bitmasks[attribute] = HashWithIndifferentAccess.new.tap do |mapping|
         values.each_with_index do |value, index|
           mapping[value] = 0b1 << index
         end
