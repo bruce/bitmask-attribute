@@ -17,7 +17,7 @@ module BitmaskAttribute
       override model
       create_convenience_class_method_on(model)
       create_convenience_instance_methods_on(model)
-      create_named_scopes_on(model)
+      create_scopes_on(model)
     end
     
     #######
@@ -100,27 +100,27 @@ module BitmaskAttribute
       )
     end
     
-    def create_named_scopes_on(model)
+    def create_scopes_on(model)
       model.class_eval %(
-        named_scope :with_#{attribute},
+        scope :with_#{attribute},
           proc { |*values|
             if values.blank?
-              {:conditions => '#{attribute} > 0 OR #{attribute} IS NOT NULL'}
+              where("#{attribute} > 0 OR #{attribute} IS NOT NULL")
             else
               sets = values.map do |value|
                 mask = #{model}.bitmask_for_#{attribute}(value)
                 "#{attribute} & \#{mask} <> 0"
               end
-              {:conditions => sets.join(' AND ')}
+              where(sets.join(' AND '))
             end
           }
-        named_scope :without_#{attribute}, :conditions => "#{attribute} == 0 OR #{attribute} IS NULL"
-        named_scope :no_#{attribute},      :conditions => "#{attribute} == 0 OR #{attribute} IS NULL"
+        scope :without_#{attribute}, where("#{attribute} == 0 OR #{attribute} IS NULL")
+        scope :no_#{attribute},      where("#{attribute} == 0 OR #{attribute} IS NULL")
       )
       values.each do |value|
         model.class_eval %(
-          named_scope :#{attribute}_for_#{value},
-                      :conditions => ['#{attribute} & ? <> 0', #{model}.bitmask_for_#{attribute}(:#{value})]
+          scope :#{attribute}_for_#{value},
+                      where("#{attribute} & ? <> 0", #{model}.bitmask_for_#{attribute}(:#{value}))
         )
       end      
     end
