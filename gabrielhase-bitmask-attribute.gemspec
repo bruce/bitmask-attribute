@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bruce Williams, Gabriel Hase"]
-  s.date = %q{2011-05-17}
+  s.date = %q{2011-06-21}
   s.email = %q{gabriel.hase@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -31,12 +31,8 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/gabrielhase/bitmask-attribute}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.7.2}
-  s.summary = %q{Simple bitmask attribute support for ActiveRecord. Forked from bruce/bitmask_attribute for Rails 3 support.}
-  s.test_files = [
-    "test/bitmask_attribute_test.rb",
-    "test/test_helper.rb"
-  ]
+  s.rubygems_version = %q{1.5.2}
+  s.summary = %q{Simple bitmask attribute support for ActiveRecord. Forked from bruce/bitmask_attribute for Rails 2.3.11 support.}
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
