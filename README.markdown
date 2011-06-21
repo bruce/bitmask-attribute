@@ -5,7 +5,8 @@ Transparent manipulation of bitmask attributes.
 
 About this Fork
 ---------------
-This Fork is just a little tweak to bruce/bitmask_attribute in order to replace the depreciated Kernel#returning function.
+This Fork is just a little tweak to bruce/bitmask_attribute in order to replace the depreciated Kernel#returning function and the named_scope
+with scope to make it Rails 3 compliant.
 To install this fork run: gem install gabrielhase-bitmask-attribute
 
 Example
