@@ -1,7 +1,20 @@
-bitmask-attribute
+BitmaskAttributes
 =================
 
-Transparent manipulation of bitmask attributes.
+Transparent manipulation of bitmask attributes for ActiveRecord, based on
+the bitmask-attribute gem, which has been dormant since 2009. This updated
+gem work with Rails 3 and up (including Rails 3.1).
+
+Installation
+------------
+
+The best way to install is with RubyGems:
+
+    $ [sudo] gem install bitmask_attributes
+    
+Or better still, just add it to your Gemfile:
+
+    gem 'bitmask_attributes'
 
 Example
 -------
@@ -89,20 +102,23 @@ IMPORTANT: Once you have data using a bitmask, don't change the order
 of the values, remove any values, or insert any new values in the `:as`
 array anywhere except at the end.  You won't like the results.
 
-Contributing and reporting issues
----------------------------------
+Contributing
+------------
 
-Please feel free to fork & contribute fixes via GitHub pull requests.
-The official repository for this project is
-http://github.com/bruce/bitmask-attribute
-
-Issues can be reported at
-http://github.com/bruce/bitmask-attribute/issues
+1. Fork it.
+2. Create a branch (`git checkout -b new-feature`)
+3. Make your changes
+4. Run the tests (`bundle install` then `bundle exec rake`)
+5. Commit your changes (`git commit -am "Created new feature"`)
+6. Push to the branch (`git push origin new-feature`)
+7. Create a [Pull Request](http://help.github.com/pull-requests/) from your branch.
+8. Promote it. Get others to drop in and +1 it.
 
 Credits
 -------
 
-Thanks to the following contributors:
+Thanks to [Bruce Williams](https://github.com/bruce) and the following contributors
+of the bitmask-attribute plugin:
 
 * [Jason L Perry](http://github.com/ambethia)
 * [Nicolas Fouché](http://github.com/nfo)
@@ -110,4 +126,4 @@ Thanks to the following contributors:
 Copyright
 ---------
 
-Copyright (c) 2007-2009 Bruce Williams. See LICENSE for details.
+Copyright (c) 2007-2009 Bruce Williams & 2011 Joel Moss. See LICENSE for details.
