@@ -1,8 +1,5 @@
-require 'bitmask_attribute/value_proxy'
-
-module BitmaskAttribute
+module BitmaskAttributes
   class Definition
-    
     attr_reader :attribute, :values, :extension
     
     def initialize(attribute, values=[], &extension)
@@ -15,9 +12,9 @@ module BitmaskAttribute
       validate_for model
       generate_bitmasks_on model
       override model
-      create_convenience_class_method_on(model)
-      create_convenience_instance_methods_on(model)
-      create_scopes_on(model)
+      create_convenience_class_method_on model
+      create_convenience_instance_methods_on model
+      create_scopes_on model
     end
     
     private
@@ -49,7 +46,7 @@ module BitmaskAttribute
       def override_getter_on(model)
         model.class_eval %(
           def #{attribute}
-            @#{attribute} ||= BitmaskAttribute::ValueProxy.new(self, :#{attribute}, &self.class.bitmask_definitions[:#{attribute}].extension)
+            @#{attribute} ||= BitmaskAttributes::ValueProxy.new(self, :#{attribute}, &self.class.bitmask_definitions[:#{attribute}].extension)
           end
         )
       end
@@ -75,7 +72,6 @@ module BitmaskAttribute
           end
         )
       end
-
 
       def create_convenience_instance_methods_on(model)
         values.each do |value|
@@ -122,30 +118,5 @@ module BitmaskAttribute
           )
         end      
       end
-    
   end
-  
-  def self.included(model)
-    model.extend ClassMethods
-  end
-    
-  module ClassMethods
-    
-    def bitmask(attribute, options={}, &extension)
-      unless options[:as] && options[:as].kind_of?(Array)
-        raise ArgumentError, "Must provide an Array :as option"
-      end
-      bitmask_definitions[attribute] = BitmaskAttribute::Definition.new(attribute, options[:as].to_a, &extension)
-      bitmask_definitions[attribute].install_on(self)
-    end
-    
-    def bitmask_definitions
-      @bitmask_definitions ||= {}
-    end
-    
-    def bitmasks
-      @bitmasks ||= {}
-    end
-      
-  end  
 end

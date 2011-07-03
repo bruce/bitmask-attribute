@@ -1,4 +1,4 @@
-module BitmaskAttribute
+module BitmaskAttributes
   class ValueProxy < Array
       
     def initialize(record, attribute, &extension)

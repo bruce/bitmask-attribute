@@ -1,9 +1,8 @@
 require 'test_helper'
 
-class BitmaskAttributeTest < Test::Unit::TestCase
+class BitmaskAttributesTest < ActiveSupport::TestCase
   
   context "Campaign" do
-
     teardown do
       Company.destroy_all
       Campaign.destroy_all
@@ -98,11 +97,9 @@ class BitmaskAttributeTest < Test::Unit::TestCase
     end
     
     context "checking" do
-
       setup { @campaign = Campaign.new(:medium => [:web, :print]) }
 
       context "for a single value" do
-      
         should "be supported by an attribute_for_value convenience method" do
           assert @campaign.medium_for_web?
           assert @campaign.medium_for_print?
@@ -114,22 +111,17 @@ class BitmaskAttributeTest < Test::Unit::TestCase
           assert @campaign.medium?(:print)
           assert !@campaign.medium?(:email)
         end
-
       end
       
       context "for multiple values" do
-        
         should "be supported by the simple predicate method" do
           assert @campaign.medium?(:web, :print)
           assert !@campaign.medium?(:web, :email)
         end
-
       end
-
     end
 
     context "named scopes" do
-
       setup do
         @company = Company.create(:name => "Test Co, Intl.")
         @campaign1 = @company.campaigns.create :medium => [:web, :print]        
@@ -153,7 +145,6 @@ class BitmaskAttributeTest < Test::Unit::TestCase
       should "support retrieval for no values" do
         assert_equal [@campaign2], @company.campaigns.without_medium
       end
-
     end
 
     should "can check if at least one value is set" do
@@ -175,7 +166,7 @@ class BitmaskAttributeTest < Test::Unit::TestCase
         Campaign.medium_for_print
       )
       
-      assert_equal Campaign.medium_for_print, Campaign.medium_for_print.medium_for_web
+      assert_equal Campaign.medium_for_print.first, Campaign.medium_for_print.medium_for_web.first
       
       assert_equal [], Campaign.medium_for_email
       assert_equal [], Campaign.medium_for_web.medium_for_email
@@ -193,24 +184,22 @@ class BitmaskAttributeTest < Test::Unit::TestCase
       assert_equal [campaign], Campaign.no_medium
     end
 
-    #######
+
     private
-    #######
 
-    def assert_unsupported(&block)
-      assert_raises(ArgumentError, &block)
-    end
+      def assert_unsupported(&block)
+        assert_raises(ArgumentError, &block)
+      end
 
-    def assert_stored(record, *values)
-      values.each do |value|
-        assert record.medium.any? { |v| v.to_s == value.to_s }, "Values #{record.medium.inspect} does not include #{value.inspect}"
+      def assert_stored(record, *values)
+        values.each do |value|
+          assert record.medium.any? { |v| v.to_s == value.to_s }, "Values #{record.medium.inspect} does not include #{value.inspect}"
+        end
+        full_mask = values.inject(0) do |mask, value|
+          mask | Campaign.bitmasks[:medium][value]
+        end
+        assert_equal full_mask, record.medium.to_i
       end
-      full_mask = values.inject(0) do |mask, value|
-        mask | Campaign.bitmasks[:medium][value]
-      end
-      assert_equal full_mask, record.medium.to_i
-    end
 
   end
-
 end
