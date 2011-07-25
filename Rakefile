@@ -1,5 +1,6 @@
 # encoding: UTF-8
 
+require 'psych'
 require "bundler"
 Bundler::GemHelper.install_tasks
 
