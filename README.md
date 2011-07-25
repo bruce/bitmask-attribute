@@ -65,11 +65,8 @@ A couple useful named scopes are also generated when you use
     # => (all editors)
     User.with_roles(:editor, :writer)
     # => (all users who are BOTH editors and writers)
-
-Later we'll support an `or` boolean; for now, do something like:
-
-    User.with_roles(:editor) + User.with_roles(:writer)
-    # => (all users who are EITHER editors and writers)
+    User.with_any_roles(:editor, :writer)
+    # => (all users who are editors OR writers)
 
 Find records without any bitmask set:
 

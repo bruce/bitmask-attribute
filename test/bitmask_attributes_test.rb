@@ -137,6 +137,10 @@ class BitmaskAttributesTest < ActiveSupport::TestCase
         assert_equal [@campaign1], @company.campaigns.with_medium(:print)
       end
       
+      should "support retrieval by any matching value (OR)" do
+        assert_equal [@campaign1, @campaign3], @company.campaigns.with_any_medium(:print, :email)
+      end
+      
       should "support retrieval by all matching values" do
         assert_equal [@campaign1], @company.campaigns.with_medium(:web, :print)
         assert_equal [@campaign3], @company.campaigns.with_medium(:web, :email)
@@ -149,11 +153,9 @@ class BitmaskAttributesTest < ActiveSupport::TestCase
 
     should "can check if at least one value is set" do
       campaign = Campaign.new(:medium => [:web, :print])
-      
       assert campaign.medium?
       
       campaign = Campaign.new
-      
       assert !campaign.medium?
     end
 

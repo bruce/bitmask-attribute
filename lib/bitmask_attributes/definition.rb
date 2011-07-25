@@ -110,11 +110,24 @@ module BitmaskAttributes
             }
           scope :without_#{attribute}, :conditions => "#{attribute} = 0 OR #{attribute} IS NULL"
           scope :no_#{attribute},      :conditions => "#{attribute} = 0 OR #{attribute} IS NULL"
+          
+          scope :with_any_#{attribute},
+            proc { |*values|
+              if values.blank?
+                {:conditions => '#{attribute} > 0 OR #{attribute} IS NOT NULL'}
+              else
+                sets = values.map do |value|
+                  mask = #{model}.bitmask_for_#{attribute}(value)
+                  "#{attribute} & \#{mask} <> 0"
+                end
+                {:conditions => sets.join(' OR ')}
+              end
+            }
         )
         values.each do |value|
           model.class_eval %(
             scope :#{attribute}_for_#{value},
-                        :conditions => ['#{attribute} & ? <> 0', #{model}.bitmask_for_#{attribute}(:#{value})]
+                  :conditions => ['#{attribute} & ? <> 0', #{model}.bitmask_for_#{attribute}(:#{value})]
           )
         end      
       end
