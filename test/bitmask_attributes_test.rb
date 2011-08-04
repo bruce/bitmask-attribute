@@ -8,6 +8,10 @@ class BitmaskAttributesTest < ActiveSupport::TestCase
       Campaign.destroy_all
     end
 
+    should "return all defined values of a given bitmask attribute" do
+      assert_equal Campaign.values_for_medium, [:web, :print, :email, :phone]
+    end
+
     should "can assign single value to bitmask" do
       assert_stored Campaign.new(:medium => :web), :web
     end

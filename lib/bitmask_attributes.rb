@@ -19,7 +19,7 @@ module BitmaskAttributes
     
     def bitmasks
       @bitmasks ||= {}
-    end    
+    end
   end  
 end
 

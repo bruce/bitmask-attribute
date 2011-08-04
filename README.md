@@ -53,6 +53,11 @@ Or, just check if any values are present:
     user.roles?
     # => true
 
+You can get the list of values for any given attribute:
+
+    User.values_for_roles
+    # => [:writer, :publisher, :editor, :proofreader]
+
 Named Scopes
 ------------
 

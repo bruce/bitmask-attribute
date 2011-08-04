@@ -15,6 +15,7 @@ module BitmaskAttributes
       create_convenience_class_method_on model
       create_convenience_instance_methods_on model
       create_scopes_on model
+      create_attribute_methods_on model
     end
     
     private
@@ -57,6 +58,15 @@ module BitmaskAttributes
             values = raw_value.kind_of?(Array) ? raw_value : [raw_value]
             self.#{attribute}.replace(values.reject(&:blank?))
           end
+        )
+      end
+    
+      # Returns the defined values as an Array.
+      def create_attribute_methods_on(model)
+        model.class_eval %(
+          def self.values_for_#{attribute}      # def self.values_for_numbers
+            #{values}                           #   [:one, :two, :three]
+          end                                   # end
         )
       end
     
